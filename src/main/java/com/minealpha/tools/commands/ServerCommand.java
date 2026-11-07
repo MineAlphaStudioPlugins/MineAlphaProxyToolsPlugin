@@ -1,11 +1,13 @@
 package com.minealpha.tools.commands;
 
 import com.minealpha.tools.MineAlphaProxyTools;
+import com.minealphaproxy.api.MineAlphaPlayer;
 import com.minealphaproxy.api.command.CommandSource;
 import com.minealphaproxy.api.command.MineAlphaCommand;
 
-public final class ServerCommand extends MineAlphaCommand {
+import java.util.Optional;
 
+public final class ServerCommand extends MineAlphaCommand {
     private final MineAlphaProxyTools plugin;
 
     public ServerCommand(MineAlphaProxyTools plugin) {
@@ -17,11 +19,16 @@ public final class ServerCommand extends MineAlphaCommand {
     public void execute(CommandSource sender, String[] args) {
         if (args.length == 0) {
             sender.sendMessage("§7Сервера:");
-            plugin.getProxy().getServers().forEach(s ->
-                    sender.sendMessage("§7- §f" + s.getName() + " §7("
-                            + s.getAddress() + ":" + s.getPort() + ")"));
+            plugin.getProxy().getServers().forEach(s -> sender.sendMessage("§7- §f" + s.getName()));
             return;
         }
-        sender.sendMessage("§eСмена серверов пока в разработке.");
+        Optional<MineAlphaPlayer> playerOpt = sender.asPlayer();
+        if (playerOpt.isEmpty()) {
+            sender.sendMessage("§cТолько игрок может использовать /server");
+            return;
+        }
+        String target = args[0];
+        sender.sendMessage("§7Переключение на §f" + target + "§7...");
+        playerOpt.get().connectToServer(target);
     }
 }

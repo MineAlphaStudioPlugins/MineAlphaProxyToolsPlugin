@@ -1,6 +1,6 @@
 id: minealphaproxy_tools
 name: MineAlphaProxyTools
-version: 1.0.0
+version: 1.0.2
 author: MineAlphaStudio
 description: Admin utilities for MineAlphaProxy
 main: com.minealpha.tools.MineAlphaProxyTools
